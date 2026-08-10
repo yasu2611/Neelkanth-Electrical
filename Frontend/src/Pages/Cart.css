@@ -1,0 +1,322 @@
+/* Base Layout */
+.cart-section {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 40px 20px;
+  min-height: 70vh;
+  font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif;
+}
+ 
+.cart-title {
+  font-size: 2.5rem;
+  font-weight: 800;
+  color: #111827;
+  margin-bottom: 30px;
+}
+ 
+/* Empty Cart */
+.empty-cart {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 20px;
+  padding: 80px 20px;
+  background-color: #f9fafb;
+  border: 1px solid #f3f4f6;
+  border-radius: 24px;
+}
+ 
+.empty-cart p {
+  font-size: 1.25rem;
+  color: #6b7280;
+}
+ 
+.explore-btn {
+  padding: 12px 32px;
+  background-color: #2563eb;
+  color: white;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.3s ease;
+}
+ 
+.explore-btn:hover {
+  background-color: #1d4ed8;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.3);
+}
+ 
+/* Grid / Flex Layout */
+.cart-layout {
+  display: flex;
+  gap: 30px;
+  align-items: flex-start;
+}
+ 
+/* Left Side: Product List */
+.cart-items-container {
+  flex: 2;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+ 
+.cart-item {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  background: white;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 20px;
+  box-shadow: 0 1px 3px rgba(0, 0, 0, 0.05);
+}
+ 
+.item-details-left {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+ 
+.item-image-wrapper {
+  width: 100px;
+  height: 100px;
+  background-color: #f9fafb;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 10px;
+}
+ 
+.item-image-wrapper img {
+  max-width: 100%;
+  max-height: 100%;
+  object-fit: contain;
+}
+ 
+.item-info .item-name {
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #1f2937;
+  margin: 0 0 5px 0;
+}
+ 
+.item-info .item-category {
+  font-size: 0.9rem;
+  color: #6b7280;
+  margin: 0;
+}
+ 
+.item-details-right {
+  display: flex;
+  align-items: center;
+  gap: 30px;
+}
+ 
+.qty-controls {
+  display: flex;
+  align-items: center;
+  background-color: #f3f4f6;
+  border-radius: 10px;
+  padding: 5px;
+}
+ 
+.qty-controls button {
+  width: 35px;
+  height: 35px;
+  background: white;
+  border: none;
+  border-radius: 8px;
+  font-size: 1.2rem;
+  font-weight: bold;
+  color: #4b5563;
+  cursor: pointer;
+  box-shadow: 0 1px 2px rgba(0, 0, 0, 0.1);
+}
+ 
+.qty-controls button:hover {
+  color: #2563eb;
+  background-color: #eff6ff;
+}
+ 
+.qty-controls span {
+  width: 40px;
+  text-align: center;
+  font-weight: bold;
+  font-size: 1.1rem;
+}
+ 
+.item-price {
+  font-size: 1.4rem;
+  font-weight: 900;
+  color: #2563eb;
+  min-width: 100px;
+  text-align: right;
+  margin: 0;
+}
+ 
+/* Right Side: Bill Card */
+.cart-bill-container {
+  flex: 1;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 16px;
+  padding: 24px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.05);
+  position: sticky;
+  top: 20px;
+}
+ 
+.bill-title {
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-top: 0;
+  margin-bottom: 16px;
+  color: #111827;
+}
+ 
+.bill-section-label {
+  font-size: 0.85rem;
+  font-weight: 700;
+  text-transform: uppercase;
+  color: #9ca3af;
+  margin-bottom: 12px;
+  letter-spacing: 0.05em;
+}
+ 
+/* Items List in Bill */
+.bill-items-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+  max-height: 220px;
+  overflow-y: auto;
+  padding-right: 5px;
+}
+ 
+.bill-item-row {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  font-size: 0.95rem;
+}
+ 
+.bill-item-name-qty {
+  display: flex;
+  flex-direction: column;
+}
+ 
+.item-title {
+  font-weight: 600;
+  color: #374151;
+}
+ 
+.item-calc {
+  font-size: 0.8rem;
+  color: #6b7280;
+}
+ 
+.item-total-price {
+  font-weight: 700;
+  color: #1f2937;
+}
+ 
+.bill-divider {
+  border: 0;
+  border-top: 1px dashed #d1d5db;
+  margin: 16px 0;
+}
+ 
+.bill-details {
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  margin-bottom: 24px;
+}
+ 
+.bill-row {
+  display: flex;
+  justify-content: space-between;
+  font-size: 1rem;
+  color: #4b5563;
+}
+ 
+.tax-row {
+  font-size: 0.9rem;
+  color: #6b7280;
+}
+ 
+.bill-row.grand-total {
+  font-size: 1.35rem;
+  font-weight: 900;
+  color: #111827;
+  border-top: 2px solid #e5e7eb;
+  padding-top: 12px;
+  margin-top: 6px;
+}
+ 
+.checkout-btn {
+  width: 100%;
+  padding: 16px;
+  background: linear-gradient(to right, #2563eb, #1e40af);
+  color: white;
+  border: none;
+  border-radius: 12px;
+  font-size: 1.15rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(37, 99, 235, 0.3);
+}
+ 
+.checkout-btn:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 20px rgba(37, 99, 235, 0.4);
+}
+/* Delete Button Styles */
+.delete-btn {
+  background: transparent;
+  border: none;
+  color: #ef4444; /* Red color for delete */
+  cursor: pointer;
+  padding: 8px;
+  border-radius: 8px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.2s ease;
+  margin-left: 10px;
+}
+ 
+.delete-btn:hover {
+  background-color: #fee2e2; /* Light red background on hover */
+  color: #b91c1c; /* Darker red on hover */
+}
+ 
+/* Mobile View Adjustments */
+@media (max-width: 900px) {
+  .cart-layout {
+    flex-direction: column;
+  }
+ 
+  .cart-bill-container {
+    width: 100%;
+    position: static;
+    box-sizing: border-box;
+  }
+ 
+  .cart-item {
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 20px;
+  }
+ 
+  .item-details-right {
+    width: 100%;
+    justify-content: space-between;
+  }
+}
