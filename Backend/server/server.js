@@ -42,7 +42,7 @@ import express from "express";
 import mongoose from "mongoose";
 import cors from "cors";
 import dotenv from "dotenv";
-import productRoutes from "./routes/products.js";
+import productRoutes from "./routes/Products.js";
 import authRoutes from "./routes/auth.js";
 import cartRoutes from "./routes/cart.js";
 import userRoutes from "./routes/users.js";
