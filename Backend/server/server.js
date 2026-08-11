@@ -70,7 +70,9 @@ app.get("/", (req, res) => {
 });
 
 mongoose
-  .connect(process.env.MONGO_URI)
+  .connect(process.env.MONGO_URI, {
+    dbName: "neelkanth",
+  })
   .then(() => {
     console.log("✅ MongoDB connected");
     app.listen(PORT, "0.0.0.0", () => {
