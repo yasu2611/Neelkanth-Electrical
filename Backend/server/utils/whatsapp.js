@@ -5,10 +5,25 @@ import path from "path";
 import { INVOICES_DIR } from "./generateInvoice.js";
 
 // Initialize WhatsApp client with local session persistence
+// const client = new Client({
+//   authStrategy: new LocalAuth(),
+//   puppeteer: {
+//     args: ["--no-sandbox", "--disable-setuid-sandbox"],
+//   },
+// });
 const client = new Client({
   authStrategy: new LocalAuth(),
   puppeteer: {
-    args: ["--no-sandbox", "--disable-setuid-sandbox"],
+    headless: true,
+    executablePath:
+      process.env.CHROME_BIN ||
+      "/opt/render/.cache/puppeteer/chrome/linux-146.0.7680.31/chrome-linux64/chrome",
+    args: [
+      "--no-sandbox",
+      "--disable-setuid-sandbox",
+      "--disable-dev-shm-usage",
+      "--disable-gpu",
+    ],
   },
 });
 
