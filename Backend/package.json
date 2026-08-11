@@ -1,4 +1,7 @@
 {
+  "scripts": {
+    "start": "node server.js"
+  },
   "dependencies": {
     "pdfkit": "^0.19.1",
     "qrcode-terminal": "^0.12.0",
