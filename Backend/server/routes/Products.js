@@ -6,7 +6,7 @@ const router = express.Router();
 // GET /api/products - list all products
 router.get("/", async (req, res) => {
   try {
-    const products = await Product.find().sort({ _id: -1 });
+    const products = await Product.find();
     res.json(products);
   } catch (err) {
     res.status(500).json({ message: "Failed to fetch products", error: err.message });
