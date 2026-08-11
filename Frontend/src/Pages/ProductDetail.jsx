@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FiArrowLeft, FiShoppingCart } from "react-icons/fi";
 import { addToCart as addProductToCart } from "../utils/cart";
 import "./ProductDetail.css";
+const API_URL = import.meta.env.VITE_API_BASE;
  
 function ProductDetail() {
   const { id } = useParams();
@@ -18,7 +19,7 @@ function ProductDetail() {
       const fetchProduct = async () => {
         try {
           const response = await fetch(
-            `http://localhost:5000/api/products/${id}`,
+            `${API_URL}/products/${id}`,
           );
           if (response.ok) {
             const data = await response.json();

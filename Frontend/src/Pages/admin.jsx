@@ -4,7 +4,7 @@ import { getCurrentUser, clearCurrentUser } from "../utils/auth";
 import { getUsersList, deleteUser, getInquiries, deleteInquiry } from "../utils/api";
 import { fetchOrders, viewInvoice, updateOrderStatus } from "../utils/orders";
 import "./admin.css";
-
+const API_URL = import.meta.env.VITE_API_BASE;
 const PLACEHOLDER_IMG =
     "data:image/svg+xml;utf8," +
     encodeURIComponent(
@@ -79,7 +79,7 @@ function Admin() {
     }, []);
 
     useEffect(() => {
-        fetch("http://localhost:5000/api/products")
+        fetch(`${API_URL}/products`)
             .then((res) => res.json())
             .then((data) => {
                 setProducts(data);
@@ -293,7 +293,7 @@ const handleEditClick = (product) => {
 
         try {
             if (editingId) {
-                const response = await fetch(`http://localhost:5000/api/products/${editingId}`, {
+                fetch(`${API_URL}/products/${editingId}`, {
                     method: "PUT",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(productData),
@@ -308,7 +308,7 @@ const handleEditClick = (product) => {
                     setFormError("Failed to update product. Please try again.");
                 }
             } else {
-                const response = await fetch("http://localhost:5000/api/products", {
+                fetch(`${API_URL}/products`, {
                     method: "POST",
                     headers: { "Content-Type": "application/json" },
                     body: JSON.stringify(productData),
@@ -334,7 +334,7 @@ const handleEditClick = (product) => {
     const handleDeleteProduct = async (id) => {
         if (window.confirm("Are you sure you want to delete this product?")) {
             try {
-                const response = await fetch(`http://localhost:5000/api/products/${id}`, {
+                fetch(`${API_URL}/products/${id}`, {
                     method: "DELETE",
                 });
 

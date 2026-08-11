@@ -4,6 +4,7 @@ import toast, { Toaster } from "react-hot-toast";
 import { FiShoppingCart } from "react-icons/fi";
 import { addToCart as addProductToCart } from "../utils/cart";
 import "./products.css";
+const API_URL = import.meta.env.VITE_API_BASE;
  
 // Placeholder Image
 const PLACEHOLDER_IMG =
@@ -29,7 +30,7 @@ function Products() {
     const fetchProducts = async () => {
       try {
         setLoading(true);
-        const response = await fetch("http://localhost:5000/api/products");
+        const response = await fetch(`${API_URL}/products`);
  
         if (response.ok) {
           const data = await response.json();
