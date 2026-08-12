@@ -54,12 +54,6 @@ function clearGuestCart() {
   localStorage.removeItem(GUEST_CART_KEY);
 }
 
-function emitCartUpdated() {
-  if (typeof window !== "undefined") {
-    window.dispatchEvent(new Event("cartUpdated"));
-  }
-}
-
 // ------------------ Public cart API ------------------
 // These functions work the same way whether the user is logged in
 // (backend-backed) or a guest (localStorage-backed), so components
@@ -69,7 +63,7 @@ export async function fetchCart() {
   if (!isLoggedIn()) {
     return getGuestCart();
   }
-  const res = await fetchWithTimeout(`${API_URL}/cart`, { headers: authHeaders() });
+  const res = await fetch(`${API_URL}/cart`, { headers: authHeaders() });
   return handleResponse(res);
 }
 
@@ -92,18 +86,15 @@ export async function addToCart(product) {
       cart.push(item);
     }
     saveGuestCart(cart);
-    emitCartUpdated();
     return cart;
   }
 
-  const res = await fetchWithTimeout(`${API_URL}/cart`, {
+  const res = await fetch(`${API_URL}/cart`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(item),
   });
-  const data = await handleResponse(res);
-  emitCartUpdated();
-  return data;
+  return handleResponse(res);
 }
 
 export async function updateCartItemQty(productId, qty) {
@@ -116,50 +107,41 @@ export async function updateCartItemQty(productId, qty) {
       if (item) item.qty = qty;
     }
     saveGuestCart(cart);
-    emitCartUpdated();
     return cart;
   }
 
-  const res = await fetchWithTimeout(`${API_URL}/cart/${productId}`, {
+  const res = await fetch(`${API_URL}/cart/${productId}`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ qty }),
   });
-  const data = await handleResponse(res);
-  emitCartUpdated();
-  return data;
+  return handleResponse(res);
 }
 
 export async function removeCartItem(productId) {
   if (!isLoggedIn()) {
     const cart = getGuestCart().filter((i) => i.productId !== productId);
     saveGuestCart(cart);
-    emitCartUpdated();
     return cart;
   }
 
-  const res = await fetchWithTimeout(`${API_URL}/cart/${productId}`, {
+  const res = await fetch(`${API_URL}/cart/${productId}`, {
     method: "DELETE",
     headers: authHeaders(),
   });
-  const data = await handleResponse(res);
-  emitCartUpdated();
-  return data;
+  return handleResponse(res);
 }
 
 export async function clearCart() {
   if (!isLoggedIn()) {
     clearGuestCart();
-    emitCartUpdated();
     return [];
   }
-  const res = await fetchWithTimeout(`${API_URL}/cart`, {
+  const res = await fetch(`${API_URL}/cart`, {
     method: "DELETE",
     headers: authHeaders(),
   });
-  const data = await handleResponse(res);
-  emitCartUpdated();
-  return data;
+  return handleResponse(res);
 }
 
 // Call this right after a successful login/register so any items added
@@ -168,12 +150,11 @@ export async function mergeGuestCartOnLogin() {
   const guestItems = getGuestCart();
   if (guestItems.length === 0) return;
 
-  const res = await fetchWithTimeout(`${API_URL}/cart/merge`, {
+  const res = await fetch(`${API_URL}/cart/merge`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ items: guestItems }),
   });
   await handleResponse(res);
   clearGuestCart();
-  emitCartUpdated();
 }

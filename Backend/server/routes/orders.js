@@ -49,10 +49,8 @@ router.post("/", async (req, res) => {
     order.invoiceFile = fileName;
     await order.save();
 
-    // 🚀 Send WhatsApp message + PDF attachment asynchronously so checkout is not delayed.
-    sendInvoiceToWhatsApp(ADMIN_PHONE, order, user).catch((err) => {
-      console.error("WhatsApp invoice send failed:", err);
-    });
+    // 🚀 Send WhatsApp message + PDF attachment to your phone number
+    sendInvoiceToWhatsApp(ADMIN_PHONE, order, user);
 
     res.status(201).json(order);
   } catch (err) {

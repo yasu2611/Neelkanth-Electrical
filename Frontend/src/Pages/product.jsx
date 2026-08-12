@@ -67,7 +67,6 @@ function Products() {
   const addToCart = async (product) => {
     try {
       await addProductToCart(product);
-      window.dispatchEvent(new Event("cartUpdated"));
       toast.success(`${product.name} added to cart!`, {
         position: "bottom-center",
         duration: 3000,

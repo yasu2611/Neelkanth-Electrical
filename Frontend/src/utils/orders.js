@@ -2,17 +2,6 @@ import { getCurrentUser } from "./auth";
 
 const API_URL = import.meta.env.VITE_API_BASE;
 
-export async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
-  const controller = new AbortController();
-  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
-
-  try {
-    return await fetch(url, { signal: controller.signal, ...options });
-  } finally {
-    clearTimeout(timeoutId);
-  }
-}
-
 function authHeaders() {
   const user = getCurrentUser();
   return user && user.id ? { "x-user-id": user.id } : {};
@@ -29,7 +18,7 @@ async function handleResponse(res) {
 // Places an order from the given cart items and generates its invoice PDF.
 // items: [{ productId, name, price, image, category, qty }]
 export async function placeOrder(items, shippingAddress) {
-  const res = await fetchWithTimeout(`${API_URL}/orders`, {
+  const res = await fetch(`${API_URL}/orders`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ items, shippingAddress }),
@@ -39,12 +28,12 @@ export async function placeOrder(items, shippingAddress) {
 
 // Fetches the logged-in user's order history.
 export async function fetchOrders() {
-  const res = await fetchWithTimeout(`${API_URL}/orders`, { headers: authHeaders() });
+  const res = await fetch(`${API_URL}/orders`, { headers: authHeaders() });
   return handleResponse(res);
 }
 
 export async function updateOrderStatus(orderId, status) {
-  const res = await fetchWithTimeout(`${API_URL}/orders/${orderId}/status`, {
+  const res = await fetch(`${API_URL}/orders/${orderId}/status`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify({ status }),
