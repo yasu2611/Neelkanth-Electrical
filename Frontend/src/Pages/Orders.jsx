@@ -10,6 +10,7 @@ function Orders() {
 
   const [orders, setOrders] = useState([]);
   const [loading, setLoading] = useState(true);
+  const [error, setError] = useState("");
   const [downloadingId, setDownloadingId] = useState(null);
   const [selectedOrder, setSelectedOrder] = useState(null); // For Details Modal
 
@@ -21,7 +22,10 @@ function Orders() {
 
     fetchOrders()
       .then(setOrders)
-      .catch((err) => console.error("Failed to load orders:", err))
+      .catch((err) => {
+        console.error("Failed to load orders:", err);
+        setError(err.message || "Unable to load order history.");
+      })
       .finally(() => setLoading(false));
   }, [user, navigate]);
 
@@ -47,6 +51,10 @@ function Orders() {
 
         {loading ? (
           <p>Loading orders...</p>
+        ) : error ? (
+          <div className="profile-error">
+            <p>{error}</p>
+          </div>
         ) : orders.length === 0 ? (
           <div className="profile-empty-orders">
             <p>You haven't placed any orders yet.</p>

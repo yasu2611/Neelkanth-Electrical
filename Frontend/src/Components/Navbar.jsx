@@ -21,15 +21,25 @@ const Navbar = () => {
       setUserName("");
     }
 
-    fetchCart()
-      .then((items) => {
+    const loadCartCount = async () => {
+      try {
+        const items = await fetchCart();
         const count = items.reduce((sum, item) => sum + Number(item.qty || 1), 0);
         setCartCount(count);
-      })
-      .catch((err) => {
+      } catch (err) {
         console.error("Failed to load cart count:", err);
         setCartCount(0);
-      });
+      }
+    };
+
+    loadCartCount();
+
+    const onCartUpdated = () => {
+      loadCartCount();
+    };
+
+    window.addEventListener("cartUpdated", onCartUpdated);
+    return () => window.removeEventListener("cartUpdated", onCartUpdated);
   }, [location.pathname]);
 
   const logout = () => {

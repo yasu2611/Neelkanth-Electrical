@@ -163,6 +163,17 @@ import { getCurrentUser } from "./auth";
 
 const API_URL = import.meta.env.VITE_API_BASE;
 
+export async function fetchWithTimeout(url, options = {}, timeoutMs = 15000) {
+  const controller = new AbortController();
+  const timeoutId = setTimeout(() => controller.abort(), timeoutMs);
+
+  try {
+    return await fetch(url, { signal: controller.signal, ...options });
+  } finally {
+    clearTimeout(timeoutId);
+  }
+}
+
 // Attaches the logged-in user's id so the backend knows who's asking.
 // (No JWT - see auth.js / backend/middleware/auth.js for why.)
 function authHeaders() {
@@ -181,7 +192,7 @@ async function handleResponse(res) {
 // ------------------ Auth ------------------
 
 export async function loginUser({ query, password }) {
-  const res = await fetch(`${API_URL}/auth/login`, {
+  const res = await fetchWithTimeout(`${API_URL}/auth/login`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify({ query, password }),
@@ -190,7 +201,7 @@ export async function loginUser({ query, password }) {
 }
 
 export async function registerUser(userData) {
-  const res = await fetch(`${API_URL}/auth/register`, {
+  const res = await fetchWithTimeout(`${API_URL}/auth/register`, {
     method: "POST",
     headers: { "Content-Type": "application/json" },
     body: JSON.stringify(userData),
@@ -201,14 +212,14 @@ export async function registerUser(userData) {
 // ------------------ Users (admin) ------------------
 
 export async function getUsersList() {
-  const res = await fetch(`${API_URL}/users`, {
+  const res = await fetchWithTimeout(`${API_URL}/users`, {
     headers: authHeaders(),
   });
   return handleResponse(res);
 }
 
 export async function deleteUser(userId) {
-  const res = await fetch(`${API_URL}/users/${userId}`, {
+  const res = await fetchWithTimeout(`${API_URL}/users/${userId}`, {
     method: "DELETE",
     headers: authHeaders(),
   });
@@ -216,7 +227,7 @@ export async function deleteUser(userId) {
 }
 
 export async function updateUserProfile(profileData) {
-  const res = await fetch(`${API_URL}/users/me`, {
+  const res = await fetchWithTimeout(`${API_URL}/users/me`, {
     method: "PUT",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(profileData),
@@ -225,7 +236,7 @@ export async function updateUserProfile(profileData) {
 }
 
 export async function fetchUserProfile() {
-  const res = await fetch(`${API_URL}/users/me`, {
+  const res = await fetchWithTimeout(`${API_URL}/users/me`, {
     headers: authHeaders(),
   });
   return handleResponse(res);
@@ -234,7 +245,7 @@ export async function fetchUserProfile() {
 // ------------------ Inquiries (Contact form) ------------------
 
 export async function saveInquiry(inquiry) {
-  const res = await fetch(`${API_URL}/inquiries`, {
+  const res = await fetchWithTimeout(`${API_URL}/inquiries`, {
     method: "POST",
     headers: { "Content-Type": "application/json", ...authHeaders() },
     body: JSON.stringify(inquiry),
@@ -243,7 +254,7 @@ export async function saveInquiry(inquiry) {
 }
 
 export async function getInquiries() {
-  const res = await fetch(`${API_URL}/inquiries`, {
+  const res = await fetchWithTimeout(`${API_URL}/inquiries`, {
     headers: authHeaders(),
   });
   return handleResponse(res);
