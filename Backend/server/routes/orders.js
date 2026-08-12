@@ -59,15 +59,29 @@ router.post("/", async (req, res) => {
 });
 
 // GET /api/orders - returns the current user's order history, or all orders for admin users
+// GET /api/orders - returns current user's order history, or all orders for admin users
 router.get("/", async (req, res) => {
   try {
+    // 1. Check if auth middleware attached valid user data
+    if (!req.userId && req.userRole !== "admin") {
+      return res.status(401).json({ message: "Unauthorized: Missing user authentication." });
+    }
+
     const query = req.userRole === "admin" ? {} : { userId: req.userId };
+    
     const orders = await Order.find(query)
       .sort({ createdAt: -1 })
       .populate("userId", "fullName username email");
+
     res.json(orders);
   } catch (err) {
-    res.status(500).json({ message: "Failed to fetch orders.", error: err.message });
+    // 2. Log full error to Render Dashboard logs for easy debugging
+    console.error("GET /api/orders failed with error:", err);
+    
+    res.status(500).json({ 
+      message: "Failed to fetch orders.", 
+      error: err.message 
+    });
   }
 });
 

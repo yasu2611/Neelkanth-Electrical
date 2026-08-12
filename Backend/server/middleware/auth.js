@@ -1,14 +1,68 @@
+// import User from "../models/User.js";
+
+// // Simple, no-JWT auth: the frontend sends the logged-in user's Mongo _id
+// // in the "x-user-id" header on every request that needs to know who's
+// // logged in (same trust model as the old localStorage-only setup, just
+// // backed by a real database now instead of purely client-side storage).
+// export async function requireUser(req, res, next) {
+//   const userId = req.headers["x-user-id"];
+
+//   if (!userId) {
+//     return res.status(401).json({ message: "Please log in." });
+//   }
+
+//   try {
+//     const user = await User.findById(userId);
+//     if (!user) {
+//       return res.status(401).json({ message: "Please log in again." });
+//     }
+//     req.userId = user._id.toString();
+//     req.userRole = user.role;
+//     next();
+//   } catch (err) {
+//     return res.status(401).json({ message: "Please log in again." });
+//   }
+// }
+
+// // Doesn't block the request if there's no user - just attaches userId if present.
+// export async function optionalUser(req, res, next) {
+//   const userId = req.headers["x-user-id"];
+//   if (!userId) {
+//     req.userId = null;
+//     return next();
+//   }
+//   try {
+//     const user = await User.findById(userId);
+//     req.userId = user ? user._id.toString() : null;
+//   } catch (err) {
+//     req.userId = null;
+//   }
+//   next();
+// }
+
+// export function requireAdmin(req, res, next) {
+//   if (req.userRole !== "admin") {
+//     return res.status(403).json({ message: "Admin access required." });
+//   }
+//   next();
+// }
+import mongoose from "mongoose";
 import User from "../models/User.js";
 
 // Simple, no-JWT auth: the frontend sends the logged-in user's Mongo _id
 // in the "x-user-id" header on every request that needs to know who's
-// logged in (same trust model as the old localStorage-only setup, just
-// backed by a real database now instead of purely client-side storage).
+// logged in.
 export async function requireUser(req, res, next) {
   const userId = req.headers["x-user-id"];
 
-  if (!userId) {
+  // 1. Check if header is missing or undefined string
+  if (!userId || userId === "undefined" || userId === "null") {
     return res.status(401).json({ message: "Please log in." });
+  }
+
+  // 2. Validate that the ID string is a valid MongoDB ObjectId format
+  if (!mongoose.Types.ObjectId.isValid(userId)) {
+    return res.status(401).json({ message: "Invalid session user ID. Please log in again." });
   }
 
   try {
@@ -20,6 +74,7 @@ export async function requireUser(req, res, next) {
     req.userRole = user.role;
     next();
   } catch (err) {
+    console.error("requireUser middleware error:", err);
     return res.status(401).json({ message: "Please log in again." });
   }
 }
@@ -27,13 +82,16 @@ export async function requireUser(req, res, next) {
 // Doesn't block the request if there's no user - just attaches userId if present.
 export async function optionalUser(req, res, next) {
   const userId = req.headers["x-user-id"];
-  if (!userId) {
+  
+  if (!userId || userId === "undefined" || userId === "null" || !mongoose.Types.ObjectId.isValid(userId)) {
     req.userId = null;
     return next();
   }
+  
   try {
     const user = await User.findById(userId);
     req.userId = user ? user._id.toString() : null;
+    req.userRole = user ? user.role : null;
   } catch (err) {
     req.userId = null;
   }
