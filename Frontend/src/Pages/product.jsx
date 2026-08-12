@@ -1,190 +1,12 @@
-// import { useState, useEffect } from "react";
-// import { useNavigate, useLocation } from "react-router-dom";
-// import toast, { Toaster } from "react-hot-toast";
-// import { FiShoppingCart } from "react-icons/fi";
-// import { addToCart as addProductToCart } from "../utils/cart";
-// import "./products.css";
-// const API_URL = import.meta.env.VITE_API_BASE;
-
-// // Placeholder Image
-// const PLACEHOLDER_IMG =
-//   "data:image/svg+xml;utf8," +
-//   encodeURIComponent(
-//     `<svg xmlns='http://www.w3.org/2000/svg' width='150' height='150'>
-//       <rect width='100%' height='100%' fill='#f8fafc'/>
-//       <text x='50%' y='50%' font-family='Segoe UI, sans-serif' font-size='14' fill='#4b5563' text-anchor='middle' dominant-baseline='middle'>No Image</text>
-//     </svg>`,
-//   );
-
-// function Products() {
-//   const navigate = useNavigate();
-//   const location = useLocation();
-
-//   const [products, setProducts] = useState([]);
-//   const [loading, setLoading] = useState(true);
-
-//   const initialCategory = location.state?.category || "All";
-//   const [activeCategory, setActiveCategory] = useState(initialCategory);
-
-//   useEffect(() => {
-//     const fetchProducts = async () => {
-//       try {
-//         setLoading(true);
-//         const response = await fetch(`${API_URL}/products`);
-
-//         if (response.ok) {
-//           const data = await response.json();
-//           setProducts(data);
-//         } else {
-//           console.error("Failed to fetch products");
-//         }
-//       } catch (error) {
-//         console.error("Error fetching products:", error);
-//       } finally {
-//         setLoading(false);
-//       }
-//     };
-
-//     fetchProducts();
-//   }, []);
-
-//   useEffect(() => {
-//     if (location.state?.category) {
-//       setActiveCategory(location.state.category);
-//     }
-//   }, [location.state]);
-
-//   const allCategories = [
-//     "All",
-//     ...new Set(products.map((item) => item.category)),
-//   ];
-
-//   const filteredProducts = products.filter((product) => {
-//     if (activeCategory === "All") return true;
-//     return product.category === activeCategory;
-//   });
-
-//   const addToCart = async (product) => {
-//     try {
-//       await addProductToCart(product);
-//       toast.success(`${product.name} added to cart!`, {
-//         position: "bottom-center",
-//         duration: 3000,
-//       });
-//     } catch (error) {
-//       console.error("Failed to add product to cart:", error);
-//       toast.error("Could not add product to cart. Please try again.", {
-//         position: "bottom-center",
-//         duration: 3000,
-//       });
-//     }
-//   };
-
-//   return (
-//     <div className="nk-page">
-//       <Toaster />
-//       <div className="nk-container">
-//         <div className="nk-header">
-//           <div className="nk-header-text">
-//             <h1 className="nk-main-title">Latest Collection</h1>
-//             <p className="nk-subtitle">
-//               Discover our carefully curated appliances.
-//             </p>
-//           </div>
-
-//           <button onClick={() => navigate("/cart")} className="nk-cart-btn">
-//             <span>Cart</span>
-//             <FiShoppingCart className="nk-icon" />
-//           </button>
-//         </div>
-
-//         <div className="nk-category-nav scrollbar-hide">
-//           {allCategories.map((category) => (
-//             <button
-//               key={category}
-//               onClick={() => {
-//                 setActiveCategory(category);
-//                 navigate(".", { replace: true, state: {} });
-//               }}
-//               className={`nk-category-btn ${
-//                 activeCategory === category ? "active" : ""
-//               }`}
-//             >
-//               {category}
-//             </button>
-//           ))}
-//         </div>
-
-//         {loading ? (
-//           <div className="nk-loading">Loading collection...</div>
-//         ) : filteredProducts.length === 0 ? (
-//           <div className="nk-empty">
-//             <p>No products available in this category.</p>
-//           </div>
-//         ) : (
-//           <div className="nk-grid">
-//             {filteredProducts.map((product) => (
-//               <div key={product._id} className="nk-card">
-//                 {/* Image Section - Clickable */}
-//                 <div
-//                   className="nk-img-box"
-//                   onClick={() =>
-//                     navigate(`/product/${product._id}`, { state: { product } })
-//                   }
-//                   style={{ cursor: "pointer" }}
-//                 >
-//                   <img
-//                     src={product.image || PLACEHOLDER_IMG}
-//                     alt={product.name}
-//                     className="nk-img"
-//                   />
-//                 </div>
-
-//                 <div className="nk-details">
-//                   {/* Title and Price Section - Clickable */}
-//                   <div
-//                     className="nk-title-row"
-//                     onClick={() =>
-//                       navigate(`/product/${product._id}`, {
-//                         state: { product },
-//                       })
-//                     }
-//                     style={{ cursor: "pointer" }}
-//                   >
-//                     <h3 className="nk-product-title">{product.name}</h3>
-//                     <span className="nk-price">
-//                       ₹{product.price?.toLocaleString("en-IN")}
-//                     </span>
-//                   </div>
-
-//                   <p className="nk-category-text">{product.category}</p>
-
-//                   <button
-//                     onClick={() => addToCart(product)}
-//                     className="nk-add-btn"
-//                   >
-//                     Add To Cart
-//                   </button>
-//                 </div>
-//               </div>
-//             ))}
-//           </div>
-//         )}
-//       </div>
-//     </div>
-//   );
-// }
-
-// export default Products;
 import { useState, useEffect } from "react";
 import { useNavigate, useLocation } from "react-router-dom";
 import toast, { Toaster } from "react-hot-toast";
 import { FiShoppingCart } from "react-icons/fi";
 import { addToCart as addProductToCart } from "../utils/cart";
 import "./products.css";
-
 const API_URL = import.meta.env.VITE_API_BASE;
-
+ 
+// Placeholder Image
 const PLACEHOLDER_IMG =
   "data:image/svg+xml;utf8," +
   encodeURIComponent(
@@ -193,162 +15,121 @@ const PLACEHOLDER_IMG =
       <text x='50%' y='50%' font-family='Segoe UI, sans-serif' font-size='14' fill='#4b5563' text-anchor='middle' dominant-baseline='middle'>No Image</text>
     </svg>`,
   );
-
-const CACHE_KEY = "neelkanth_products";
-
+ 
 function Products() {
   const navigate = useNavigate();
   const location = useLocation();
-
-  // Load cached products immediately
-  const cachedProducts = (() => {
-    try {
-      const saved = localStorage.getItem(CACHE_KEY);
-      return saved ? JSON.parse(saved) : [];
-    } catch {
-      return [];
-    }
-  })();
-
-  const [products, setProducts] = useState(cachedProducts);
-  const [loading, setLoading] = useState(cachedProducts.length === 0);
-
+ 
+  const [products, setProducts] = useState([]);
+  const [loading, setLoading] = useState(true);
+ 
   const initialCategory = location.state?.category || "All";
   const [activeCategory, setActiveCategory] = useState(initialCategory);
-
+ 
   useEffect(() => {
     const fetchProducts = async () => {
       try {
+        setLoading(true);
         const response = await fetch(`${API_URL}/products`);
-
-        if (!response.ok) {
-          throw new Error("Failed to fetch products");
+ 
+        if (response.ok) {
+          const data = await response.json();
+          setProducts(data);
+        } else {
+          console.error("Failed to fetch products");
         }
-
-        const data = await response.json();
-
-        // Update page
-        setProducts(data);
-
-        // Save latest products
-        localStorage.setItem(CACHE_KEY, JSON.stringify(data));
-
       } catch (error) {
         console.error("Error fetching products:", error);
-
-        // If cache exists, keep showing it
-        if (cachedProducts.length === 0) {
-          setProducts([]);
-        }
       } finally {
         setLoading(false);
       }
     };
-
+ 
     fetchProducts();
   }, []);
-
+ 
   useEffect(() => {
     if (location.state?.category) {
       setActiveCategory(location.state.category);
     }
   }, [location.state]);
-
+ 
   const allCategories = [
     "All",
     ...new Set(products.map((item) => item.category)),
   ];
-
+ 
   const filteredProducts = products.filter((product) => {
     if (activeCategory === "All") return true;
     return product.category === activeCategory;
   });
-
+ 
   const addToCart = async (product) => {
     try {
       await addProductToCart(product);
-
       toast.success(`${product.name} added to cart!`, {
         position: "bottom-center",
         duration: 3000,
       });
-
     } catch (error) {
       console.error("Failed to add product to cart:", error);
-
       toast.error("Could not add product to cart. Please try again.", {
         position: "bottom-center",
         duration: 3000,
       });
     }
   };
-
+ 
   return (
     <div className="nk-page">
       <Toaster />
-
       <div className="nk-container">
-
         <div className="nk-header">
           <div className="nk-header-text">
             <h1 className="nk-main-title">Latest Collection</h1>
-
             <p className="nk-subtitle">
               Discover our carefully curated appliances.
             </p>
           </div>
-
-          <button
-            onClick={() => navigate("/cart")}
-            className="nk-cart-btn"
-          >
+ 
+          <button onClick={() => navigate("/cart")} className="nk-cart-btn">
             <span>Cart</span>
             <FiShoppingCart className="nk-icon" />
           </button>
         </div>
-
+ 
         <div className="nk-category-nav scrollbar-hide">
           {allCategories.map((category) => (
             <button
               key={category}
               onClick={() => {
                 setActiveCategory(category);
-                navigate(".", {
-                  replace: true,
-                  state: {},
-                });
+                navigate(".", { replace: true, state: {} });
               }}
-              className={`nk-category-btn ${activeCategory === category ? "active" : ""
-                }`}
+              className={`nk-category-btn ${
+                activeCategory === category ? "active" : ""
+              }`}
             >
               {category}
             </button>
           ))}
         </div>
-
+ 
         {loading ? (
-          <div className="nk-loading">
-            Loading collection...
-          </div>
+          <div className="nk-loading">Loading collection...</div>
         ) : filteredProducts.length === 0 ? (
           <div className="nk-empty">
             <p>No products available in this category.</p>
           </div>
         ) : (
           <div className="nk-grid">
-
             {filteredProducts.map((product) => (
-              <div
-                key={product._id}
-                className="nk-card"
-              >
-
+              <div key={product._id} className="nk-card">
+                {/* Image Section - Clickable */}
                 <div
                   className="nk-img-box"
                   onClick={() =>
-                    navigate(`/product/${product._id}`, {
-                      state: { product },
-                    })
+                    navigate(`/product/${product._id}`, { state: { product } })
                   }
                   style={{ cursor: "pointer" }}
                 >
@@ -358,9 +139,9 @@ function Products() {
                     className="nk-img"
                   />
                 </div>
-
+ 
                 <div className="nk-details">
-
+                  {/* Title and Price Section - Clickable */}
                   <div
                     className="nk-title-row"
                     onClick={() =>
@@ -370,36 +151,30 @@ function Products() {
                     }
                     style={{ cursor: "pointer" }}
                   >
-                    <h3 className="nk-product-title">
-                      {product.name}
-                    </h3>
-
+                    <h3 className="nk-product-title">{product.name}</h3>
                     <span className="nk-price">
                       ₹{product.price?.toLocaleString("en-IN")}
                     </span>
                   </div>
-
-                  <p className="nk-category-text">
-                    {product.category}
-                  </p>
-
+ 
+                  <p className="nk-category-text">{product.category}</p>
+ 
                   <button
                     onClick={() => addToCart(product)}
                     className="nk-add-btn"
                   >
                     Add To Cart
                   </button>
-
                 </div>
               </div>
             ))}
-
           </div>
         )}
-
       </div>
     </div>
   );
 }
-
+ 
 export default Products;
+ 
+ 
