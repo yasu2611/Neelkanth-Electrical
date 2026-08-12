@@ -191,9 +191,9 @@ const Contact = () => {
       <div className="contact-content">
         <div className="contact-info">
           <h3>Get in Touch</h3>
-          <p>📍 123, Main Road, Jamnagar, Gujarat - 361001</p>
-          <p>📞 +91 98765 43210</p>
-          <p>✉️ neelkanth@gmail.com</p>
+          <p>📍 Shop No.11 ,crystal-A,vanthli highway, Junagadh</p>
+          <p>📞 +91 99135 50501 </p>
+          {/* <p>✉️ neelkanth@gmail.com</p> */}
         </div>
         
         <form className="contact-form" onSubmit={handleSubmit}>

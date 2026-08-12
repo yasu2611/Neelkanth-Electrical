@@ -111,9 +111,9 @@ const Footer = () => {
           {/* Contact Us Column */}
           <div className="footer-col contact-col">
             <h4>Contact Us</h4>
-            <p>📍 123, Main Road, Jamnagar, Gujarat - 361001</p>
-            <p>📞 +91 98765 43210</p>
-            <p>✉️ neelkanth@gmail.com</p>
+            <p>📍 Shop No.11 ,crystal-A,vanthli highway, Junagadh</p>
+            <p>📞 +91 99135 50501 </p>
+            {/* <p>✉️ neelkanth@gmail.com</p> */}
           </div>
           
           {/* Quick Links Column */}
